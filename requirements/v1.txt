@@ -1,0 +1,6 @@
+365 day , calendar
+assign task for year, start with day, week, month, year
+
+v2) month view , week view 
+v3) register, login , username, password
+v4) regisiter with email ,otp mail send , otp verify
