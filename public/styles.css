@@ -1,0 +1,29 @@
+/* public/styles.css */
+
+/* Add your global styles here */
+
+/* Style for day items */
+.day-item {
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Style for checkbox */
+.checkbox {
+    margin-right: 10px;
+}
+
+/* Style for notes input */
+.notes {
+    flex: 1;
+    padding: 5px;
+}
+
+/* Style for checked items */
+.day-item.checked {
+    background-color: #e0f5ff; /* Light blue background for checked items */
+}

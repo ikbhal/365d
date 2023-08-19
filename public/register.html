@@ -1,0 +1,55 @@
+<!-- public/register.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags, CSS, and JS -->
+    <title>Register</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Register</h1>
+    <form id="register-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        $(document).ready(() => {
+            $('#register-form').submit((event) => {
+                event.preventDefault();
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: '/api/auth/register', // Adjust the URL to match your route
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ username, password }),
+                    success: function (response) {
+                        console.log(response.message);
+                        // Handle successful registration
+                        alert('User registered successfully!');
+                        // Optionally redirect to login page
+                        // window.location.href = 'login.html';
+                        const baseUrl = window.location.href.includes('localhost')
+                            ? 'http://localhost:3042'
+                            : 'https://365d.rontohub.com';
+
+                        // Redirect to home.html on successful login
+                        window.location.href = `${baseUrl}/home.html`;
+                    },
+                    error: function (error) {
+                        console.error(error.responseJSON.error);
+                        // Handle registration error
+                        alert('Registration failed. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

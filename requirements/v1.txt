@@ -2,5 +2,6 @@
 assign task for year, start with day, week, month, year
 
 v2) month view , week view 
+v2.2) hour 8 hour , check, notes  at hour level 
 v3) register, login , username, password
 v4) regisiter with email ,otp mail send , otp verify

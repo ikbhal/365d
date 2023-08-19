@@ -1,0 +1,59 @@
+<!-- public/login.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags, CSS, and JS -->
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Login</button>
+    </form>
+    <p>Not registered? <a href="register.html">Register here</a></p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('#login-form').submit((event) => {
+                event.preventDefault();
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: '/api/auth/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ username, password }),
+                    success: function (response) {
+                        console.log(response.message);
+                        // Handle successful login
+                        // Redirect to home.html on successful login
+                       
+                         // Store username in localStorage
+                        localStorage.setItem('username', username);
+
+                         // Determine base URL based on environment
+                        const baseUrl = window.location.href.includes('localhost')
+                            ? 'http://localhost:3042'
+                            : 'https://365d.rontohub.com';
+
+                        // Redirect to home.html on successful login
+                        window.location.href = `${baseUrl}/home.html`;
+                    },
+                    error: function (error) {
+                        console.error(error.responseJSON.error);
+                        // Handle login error
+                        alert("Unable to login");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

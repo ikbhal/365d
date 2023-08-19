@@ -1,0 +1,84 @@
+<!-- public/home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags, CSS, and JS -->
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Add your custom CSS file here -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to the Home Page!</h1>
+
+    <div id="data-container">
+        <!-- Data will be rendered here -->
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            // Get username from localStorage
+            const username = localStorage.getItem('username');
+
+            // Check if username is in localStorage
+            if (!username) {
+                // Determine base URL based on environment
+                const baseUrl = window.location.href.includes('localhost')
+                    ? 'http://localhost:3042'
+                    : 'https://365d.rontohub.com';
+
+                // Redirect to login page
+                window.location.href = `${baseUrl}/login.html`;
+                return;
+            }
+            // Get username from localStorage
+            // const username = localStorage.getItem('username');
+
+            // Fetch user data using the username
+            $.ajax({
+                url: `/api/days/${username}/days`, // Adjust the URL to match your route
+                method: 'GET',
+                success: function (data) {
+                    const dataContainer = $('#data-container');
+                    data.forEach(day => {
+                        const dayHtml = `
+                            <div class="day-item" data-id="${day.dayId}">
+                                <p>Day ${day.dayId}</p>
+                                <input type="checkbox" class="checkbox" ${day.checked ? 'checked' : ''}>
+                                <textarea class="notes" value="${day.notes}" placeholder="Notes..." rows="3"></textarea>
+                            </div>
+                        `;
+                        dataContainer.append(dayHtml);
+                    });
+
+                    // Add event listeners for auto-save
+                    $('.checkbox, .notes').on('change', function () {
+                        const dayId = $(this).closest('.day-item').data('id');
+                        const checked = $(this).hasClass('checkbox') ? $(this).prop('checked') : null;
+                        const notes = $(this).hasClass('notes') ? $(this).val() : null;
+
+                        // Update data via API
+                        $.ajax({
+                            url: `/api/days/${username}/${dayId}`,
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ checked, notes }),
+                            success: function (response) {
+                                console.log(response.message);
+                            },
+                            error: function (error) {
+                                console.error(error);
+                                // Handle update error
+                            }
+                        });
+                    });
+                },
+                error: function (error) {
+                    console.error(error);
+                    // Handle data fetch error
+                }
+            });
+        });
+    </script>
+</body>
+</html>
