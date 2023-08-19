@@ -46,6 +46,8 @@
                                 <p>Day ${day.dayId}</p>
                                 <input type="checkbox" class="checkbox" ${day.checked ? 'checked' : ''}>
                                 <textarea class="notes" placeholder="Notes..." rows="3">${day.notes}</textarea>
+                                <br/>
+                                a href="/api/user/${username}/day/${day.dayId}/hours" class="day-link">View Day ${day.dayId}</a>
                             </div>
                         `;
                         dataContainer.append(dayHtml);

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Include your CSS and JS imports here -->
+</head>
+
+<body>
+    <div class="container">
+        <h1>Day <%= dayId %></h1>
+
+        <div id="hoursContainer">
+            <!-- Hours will be dynamically added here -->
+        </div>
+    </div>
+    <script>
+        // Populate hours for the day
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/user/<%=username%>/day/<%= dayId %>/hours',
+                method: 'GET',
+                success: function (hours) {
+                    hours.forEach(hour => {
+                        const hourHtml = `
+                            <div class="hour-item" data-hour-id="${hour.hourId}">
+                                <p>Hour ${hour.hourId}</p>
+                                <input type="checkbox" class="checkbox" ${hour.checked ? 'checked' : ''}>
+                                <textarea class="notes" placeholder="Notes..." rows="3">${hour.notes}</textarea>
+                            </div>
+                        `;
+                        $('#hoursContainer').append(hourHtml);
+                    });
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
