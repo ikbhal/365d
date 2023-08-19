@@ -45,7 +45,7 @@
                             <div class="day-item" data-id="${day.dayId}">
                                 <p>Day ${day.dayId}</p>
                                 <input type="checkbox" class="checkbox" ${day.checked ? 'checked' : ''}>
-                                <textarea class="notes" value="${day.notes}" placeholder="Notes..." rows="3"></textarea>
+                                <textarea class="notes" placeholder="Notes..." rows="3">${day.notes}</textarea>
                             </div>
                         `;
                         dataContainer.append(dayHtml);
